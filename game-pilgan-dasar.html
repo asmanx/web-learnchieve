@@ -341,9 +341,10 @@
             container.innerHTML = '';
 
             data.options.forEach((opt, index) => {
+                const letter = String.fromCharCode(65 + index);
                 const btn = document.createElement('button');
                 btn.className = 'btn-option';
-                btn.innerHTML = `<span>${opt}</span><span class="status-icon"></span>`;
+                btn.innerHTML = `<span>${letter}. ${opt}</span><span class="status-icon"></span>`;
                 btn.onclick = () => checkAnswer(btn, index);
                 container.appendChild(btn);
             });
