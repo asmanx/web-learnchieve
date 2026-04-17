@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            min-width: 360px;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form {
+            background: #E6F6FE;
+            width: 280px;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            border-radius:30px;
+        }
+
+        .form-group {
+            display: flex;
+            border-bottom: 2px solid;
+            width: 80%;
+        }
+
+        .form-group input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            color: black;
+            
+        }
+
+        .img-icon {
+            width: 25px;
+            height: auto;
+        }
+
+        .button {
+            width: 80%;
+            height: 15%;
+            border: none;
+            border-radius: 15px;
+            background-color: #81D4FA;
+            color: black;
+            font-size: 20px;
+            text-decoration: none;
+            text-align: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <img src="img/login/login-img1.png" alt="">
+        <img class="foto" src="img/login/login-img2.png" alt="">
+
+        <div class="form">
+            <div class="form-group">
+                <img class="img-icon" src="img/login/login-img4.png" alt="">
+                <input type="text" placeholder="Nama">
+            </div>
+
+            <div class="form-group">
+                <img class="img-icon" src="img/login/login-img5.png" alt="">
+                <input type="text" placeholder="Kelas">
+            </div>
+
+            <div class="form-group">
+                <img class="img-icon" src="img/login/login-img6.png" alt="">
+                <input type="text" placeholder="Sekolah">
+            </div>
+
+            <a class="button" href="home.html">Masuk</a>
+        </div>
+
+        <img src="img/login/login-img8.png" alt="">
+    </div>
+</body>
+
+</html>

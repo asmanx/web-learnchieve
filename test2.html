@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Learnchive Mobile</title>
+    <style>
+        :root {
+            --bg-color: #FFD966;
+            --primary-blue: #2C3E50;
+            --accent-green: #27ae60;
+        }
+
+        /* Mencegah scroll pada body */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden; 
+            background-color: var(--bg-color);
+            font-family: sans-serif;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh; /* Full tinggi layar HP */
+            width: 100%;
+        }
+
+        /* 1. HEADER (10% dari layar) */
+        header {
+            height: 10vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255,255,255,0.2);
+        }
+        .logo { font-weight: bold; color: #433878; font-size: 1.2rem; }
+        header p { margin: 0; font-size: 0.7rem; color: var(--primary-blue); }
+
+        /* 2. GRID AREA (65% dari layar) */
+        .grid-area {
+            height: 65vh;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .slot {
+            background: rgba(255, 255, 255, 0.4);
+            border: 2px dashed var(--primary-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .slot.correct {
+            border: 2px solid var(--accent-green);
+            background: #f0fff4;
+        }
+
+        /* 3. INVENTORY AREA (25% dari layar) */
+        .inventory-area {
+            height: 25vh;
+            background: rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            padding: 0 10px;
+            gap: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Kartu di dalam Inventory */
+        .card {
+            flex: 0 0 100px; /* Lebar tetap kartu */
+            height: 80%; /* Mengikuti tinggi inventory */
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            text-align: center;
+            padding: 5px;
+            position: relative;
+            touch-action: none; /* Penting untuk drag di HP */
+        }
+
+        .zoom-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+        }
+
+        /* Kartu saat sudah masuk ke Slot */
+        .in-slot {
+            width: 100% !important;
+            height: 100% !important;
+            flex: none !important;
+            box-shadow: none;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            color: black;
+            width: 80%;
+            text-align: center;
+        }
+
+        button.close-btn {
+            margin-top: 15px;
+            padding: 8px 16px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <header>
+            <div class="logo">Learnchive</div>
+            <p>Tarik surat ke kotak urutan yang benar</p>
+        </header>
+
+        <main class="grid-area">
+            <div class="slot" data-index="0"></div>
+            <div class="slot" data-index="1"></div>
+            <div class="slot" data-index="2"></div>
+            <div class="slot" data-index="3"></div>
+            <div class="slot" data-index="4"></div>
+            <div class="slot" data-index="5"></div>
+        </main>
+
+        <section class="inventory-area" id="inventory">
+            <div class="card" draggable="true" id="c0" data-order="0">
+                <b>Cover</b>
+                <button class="zoom-btn" onclick="openZoom('Cover')">🔍</button>
+            </div>
+            <div class="card" draggable="true" id="c1" data-order="1">
+                <b>Daftar Indeks</b>
+                <button class="zoom-btn" onclick="openZoom('Daftar Indeks')">🔍</button>
+            </div>
+            <div class="card" draggable="true" id="c2" data-order="2">
+                <b>Surat 1</b>
+                <button class="zoom-btn" onclick="openZoom('Surat 1')">🔍</button>
+            </div>
+            <div class="card" draggable="true" id="c3" data-order="3">
+                <b>Surat 2</b>
+                <button class="zoom-btn" onclick="openZoom('Surat 2')">🔍</button>
+            </div>
+            <div class="card" draggable="true" id="c4" data-order="4">
+                <b>Surat 3</b>
+                <button class="zoom-btn" onclick="openZoom('Surat 3')">🔍</button>
+            </div>
+            <div class="card" draggable="true" id="c5" data-order="5">
+                <b>Agenda</b>
+                <button class="zoom-btn" onclick="openZoom('Buku Agenda')">🔍</button>
+            </div>
+        </section>
+    </div>
+
+    <div id="zoom-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="zoom-title">Judul Surat</h2>
+            <div style="height: 200px; background: #eee; margin: 10px 0; display: flex; align-items: center; justify-content: center;">
+                [ Gambar Surat ]
+            </div>
+            <button class="close-btn" onclick="closeModal('zoom-modal')">Tutup</button>
+        </div>
+    </div>
+
+    <div id="win-modal" class="modal">
+        <div class="modal-content">
+            <h1>🎊 Berhasil! 🎊</h1>
+            <p>Arsip tersusun sempurna.</p>
+            <button class="close-btn" onclick="location.reload()">Main Lagi</button>
+        </div>
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.card');
+        const slots = document.querySelectorAll('.slot');
+        const inventory = document.getElementById('inventory');
+        let draggedCard = null;
+
+        // Shuffle
+        (function shuffle() {
+            const arr = Array.from(cards);
+            arr.sort(() => Math.random() - 0.5);
+            arr.forEach(c => inventory.appendChild(c));
+        })();
+
+        // Event Drag & Drop
+        cards.forEach(card => {
+            card.addEventListener('dragstart', function() {
+                draggedCard = this;
+                this.style.opacity = '0.5';
+            });
+            card.addEventListener('dragend', function() {
+                this.style.opacity = '1';
+                draggedCard = null;
+            });
+        });
+
+        slots.forEach(slot => {
+            slot.addEventListener('dragover', e => e.preventDefault());
+            slot.addEventListener('drop', function() {
+                const targetIdx = this.getAttribute('data-index');
+                const cardOrder = draggedCard.getAttribute('data-order');
+
+                if (cardOrder === targetIdx) {
+                    this.appendChild(draggedCard);
+                    this.classList.add('correct');
+                    draggedCard.setAttribute('draggable', 'false');
+                    draggedCard.classList.add('in-slot');
+                    draggedCard.querySelector('.zoom-btn').style.display = 'none';
+                    checkWin();
+                } else {
+                    inventory.appendChild(draggedCard); // Balik otomatis jika salah
+                }
+            });
+        });
+
+        function openZoom(title) {
+            document.getElementById('zoom-title').innerText = title;
+            document.getElementById('zoom-modal').style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function checkWin() {
+            if (document.querySelectorAll('.slot.correct').length === 6) {
+                setTimeout(() => {
+                    document.getElementById('win-modal').style.display = 'flex';
+                }, 400);
+            }
+        }
+    </script>
+</body>
+</html>

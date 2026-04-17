@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splace</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .content {
+            background: #F2F9FD;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+            max-width: 360px;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in forwards;
+        }
+
+        .img1 {
+            width: 100%;
+            height: auto;
+        }
+
+        .img2 {
+            width: 50%;
+            height: auto;
+        }
+
+        .img3 {
+            width: 100%;
+            height: auto;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <img class="img1" src="img/splace/splace1.png" alt="">
+        <img class="img2" src="img/splace/splace2.png" alt="">
+        <img class="img3" src="img/splace/splace3.png" alt="">
+    </div>
+
+    <script>
+        setTimeout(function () {
+            window.location.href = "home.html"; // tujuan halaman
+        }, 3000); // 3000 = 3 detik
+    </script>
+</body>
+
+</html>

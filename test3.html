@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Learnchive - Game Arsip Interaktif</title>
+    <style>
+        :root {
+            --bg-color: #FFD966;
+            --primary-blue: #2C3E50;
+            --accent-green: #27ae60;
+        }
+
+        /* Menghilangkan scroll utama agar pas satu layar */
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            /* Kunci layar */
+        }
+
+        header {
+            height: 12vh;
+            /* Alokasi 12% tinggi layar */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            color: var(--primary-blue);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #433878;
+            margin: 0;
+        }
+
+        header h3 {
+            font-size: 0.9rem;
+            margin: 2px 0;
+        }
+
+        /* Grid Utama - Menggunakan 60% tinggi layar */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 10px;
+            width: 90%;
+            height: 60vh;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            box-sizing: border-box;
+        }
+
+        .slot {
+            background: rgba(255, 255, 255, 0.4);
+            border: 2px dashed var(--primary-blue);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slot.correct {
+            border: 2px solid var(--accent-green);
+            background: #f0fff4;
+        }
+
+        /* Inventory - Menggunakan 28% tinggi layar */
+        .inventory-wrapper {
+            width: 100%;
+            height: 28vh;
+            background: rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+
+        .inventory {
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            padding: 0 15px;
+            height: 80%;
+            align-items: center;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Ukuran Kartu disesuaikan agar proporsional di HP */
+        .card {
+            flex: 0 0 110px;
+            height: 100%;
+            background: white;
+            border-radius: 8px;
+            cursor: grab;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 0.75rem;
+            text-align: center;
+            position: relative;
+            touch-action: none;
+            /* Mencegah konflik drag pada touch */
+        }
+
+        .card b {
+            padding: 5px;
+            pointer-events: none;
+        }
+
+        .zoom-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 10px;
+            z-index: 10;
+        }
+
+        /* Modal Settings */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            width: 80%;
+        }
+
+        .in-slot {
+            width: 100%;
+            height: 100%;
+            flex: 1;
+            box-shadow: none;
+            border-radius: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <p class="logo">Learnchive</p>
+        <h3>Susun Surat PT DHUFANRA</h3>
+    </header>
+
+    <div class="grid-container" id="main-grid">
+        <div class="slot" data-index="0"></div>
+        <div class="slot" data-index="1"></div>
+        <div class="slot" data-index="2"></div>
+        <div class="slot" data-index="3"></div>
+        <div class="slot" data-index="4"></div>
+        <div class="slot" data-index="5"></div>
+    </div>
+
+    <div class="inventory-wrapper">
+        <div class="inventory" id="inventory">
+            <div class="card" draggable="true" id="c0" data-order="0">
+                <b>Cover</b>
+                <button class="zoom-btn">🔍</button>
+            </div>
+            <div class="card" draggable="true" id="c1" data-order="1">
+                <b>Daftar Indeks</b>
+                <button class="zoom-btn">🔍</button>
+            </div>
+            <div class="card" draggable="true" id="c2" data-order="2">
+                <b>Surat Masuk 1</b>
+                <button class="zoom-btn">🔍</button>
+            </div>
+            <div class="card" draggable="true" id="c3" data-order="3">
+                <b>Surat Masuk 2</b>
+                <button class="zoom-btn">🔍</button>
+            </div>
+            <div class="card" draggable="true" id="c4" data-order="4">
+                <b>Surat Masuk 3</b>
+                <button class="zoom-btn">🔍</button>
+            </div>
+            <div class="card" draggable="true" id="c5" data-order="5">
+                <b>Agenda Terisi</b>
+                <button class="zoom-btn">🔍</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="zoom-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="zoom-title" style="margin-top:0">Detail Surat</h2>
+            <div
+                style="height: 250px; border: 1px solid #ccc; display: flex; align-items: center; justify-content: center; background: #eee;">
+                [ Gambar Surat Full ]
+            </div>
+            <button style="margin-top:15px; padding: 10px 20px;" onclick="closeZoom()">Tutup</button>
+        </div>
+    </div>
+
+    <div id="win-modal" class="modal">
+        <div class="modal-content">
+            <h1>🎉 Berhasil! 🎉</h1>
+            <p>Arsip tersusun dengan benar.</p>
+            <button style="padding: 10px 20px;" onclick="location.reload()">Main Lagi</button>
+        </div>
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.card');
+        const slots = document.querySelectorAll('.slot');
+        const inventory = document.getElementById('inventory');
+        let draggedCard = null;
+
+        function shuffle() {
+            const arr = Array.from(cards);
+            arr.sort(() => Math.random() - 0.5);
+            arr.forEach(c => inventory.appendChild(c));
+        }
+        shuffle();
+
+        cards.forEach(card => {
+            card.addEventListener('dragstart', function () {
+                draggedCard = this;
+                this.style.opacity = '0.4';
+            });
+            card.addEventListener('dragend', function () {
+                this.style.opacity = '1';
+                draggedCard = null;
+            });
+
+            card.querySelector('.zoom-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                openZoom(card.querySelector('b').innerText);
+            });
+        });
+
+        slots.forEach(slot => {
+            slot.addEventListener('dragover', e => e.preventDefault());
+            slot.addEventListener('drop', function () {
+                const targetIdx = this.getAttribute('data-index');
+                const cardOrder = draggedCard.getAttribute('data-order');
+
+                if (cardOrder === targetIdx) {
+                    this.appendChild(draggedCard);
+                    this.classList.add('correct');
+                    draggedCard.setAttribute('draggable', 'false');
+                    draggedCard.classList.add('in-slot');
+                    draggedCard.querySelector('.zoom-btn').style.display = 'none';
+                    checkWin();
+                } else {
+                    inventory.appendChild(draggedCard);
+                }
+            });
+        });
+
+        function openZoom(title) {
+            document.getElementById('zoom-title').innerText = title;
+            document.getElementById('zoom-modal').style.display = 'flex';
+        }
+
+        function closeZoom() {
+            document.getElementById('zoom-modal').style.display = 'none';
+        }
+
+        function checkWin() {
+            if (document.querySelectorAll('.slot.correct').length === 6) {
+                setTimeout(() => {
+                    document.getElementById('win-modal').style.display = 'flex';
+                }, 400);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        header {
+            background: #81D4FA;
+            width: 360px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .kiri {
+            margin-right: 6px;
+        }
+
+        .kanan {
+            margin-left: 6px;
+        }
+
+        .materi {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <a class="back" href="home.html"><img src="img/elemen/back-button.png" alt=""></a>
+        <img src="img/elemen/logo.png" alt="">
+    </header>
+
+    <main>
+        <div class="materi">
+            <img src="img/materi/materi-img.png" alt="">
+        </div>
+
+        <div class="content">
+            <div>
+                <a class="kiri" href="pengertian_arsip.html"><img src="img/materi/arsip-img.png" alt=""></a>
+                <a class="kanan" href="karakteristik.html"><img src="img/materi/karakteristik-img.png" alt=""></a>
+            </div>
+
+            <div>
+                <a class="kiri" href="fungsi.html"><img src="img/materi/fungsi-img.png" alt=""></a>
+                <a class="kanan" href="nilai.html"><img src="img/materi/nilai-img.png" alt=""></a>
+            </div>
+
+            <div>
+                <a class="kiri" href="asas.html"><img src="img/materi/asas-img.png" alt=""></a>
+                <a class="kanan" href="dharsip.html"><img src="img/materi/dharsip-img.png" alt=""></a>
+            </div>
+
+            <div>
+                <a class="kiri" href="sistem.html"><img src="img/materi/sistem-img.png" alt=""></a>
+                <a class="kanan" href="alat-bahan.html"><img src="img/materi/alatbahan-img.png" alt=""></a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <img class="bawah" src="img/arsip/arsip-img5.png" alt="">
+    </footer>
+
+</body>
+
+</html>
